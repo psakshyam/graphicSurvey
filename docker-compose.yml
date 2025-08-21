@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports: ["127.0.0.1:11434:11434"]    # localhost only
+    volumes: [ "ollama_models:/root/.ollama" ]
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: survey-app
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+      OLLAMA_MODEL: "llama3.1:8b"
+    depends_on: [ ollama ]
+    ports: ["127.0.0.1:8501:8501"]      # localhost only
+    restart: unless-stopped
+
+volumes:
+  ollama_models:

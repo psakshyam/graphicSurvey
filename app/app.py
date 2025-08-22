@@ -19,6 +19,9 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import os
+DEFAULT_OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+DEFAULT_OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1:8b")
 
 # -------------------------
 # Constants / markers
@@ -595,8 +598,9 @@ else:
 
     with st.expander("LLM summarization settings (Ollama)", expanded=True):
         use_ollama = st.checkbox("Use Ollama to summarize (recommended)", value=True)
-        model = st.text_input("Ollama model", "llama3.1:8b")
-        host = st.text_input("Ollama host", "http://localhost:11434")
+        model = st.text_input("Ollama model", DEFAULT_OLLAMA_MODEL)
+        host = st.text_input("Ollama host", DEFAULT_OLLAMA_HOST)
+
         temperature = st.slider("Temperature", 0.0, 1.0, 0.2, 0.05)
         max_tokens = st.slider("Max tokens (approx.)", 200, 1200, 600, 50)
 
